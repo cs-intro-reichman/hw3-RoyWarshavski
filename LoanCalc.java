@@ -40,42 +40,41 @@ public class LoanCalc {
 	// the number of periods (n), and epsilon, the approximation's accuracy
 	// Side effect: modifies the class variable iterationCounter.
     public static double bruteForceSolver(double loan, double rate, int n, double epsilon) {
-		double payment1= loan/n;
-		double balance=endBalance(loan,rate, n, payment1);
+    iterationCounter = 0;                 
+    double payment = loan / n;
+    double balance = endBalance(loan, rate, n, payment);
 
-			while (balance>=0){
-				payment1=payment1+epsilon;
-				balance=endBalance(loan,rate, n, payment1);
-			}
-
-		return payment1;
+    while (balance >= 0) {
+        payment += epsilon;               
+        iterationCounter++;               
+        balance = endBalance(loan, rate, n, payment);
     }
+    return payment;
+}
+
     
     // Uses bisection search to compute an approximation of the periodical payment 
 	// that will bring the ending balance of a loan close to 0.
 	// Given: the sum of the loan, the periodical interest rate (as a percentage),
 	// the number of periods (n), and epsilon, the approximation's accuracy
 	// Side effect: modifies the class variable iterationCounter.
-    public static double bisectionSolver(double loan, double rate, int n, double epsilon) {  
-		double highPayment= loan;
-		double lowPayment= 0;
-		double midPayment= (highPayment+lowPayment)/2;
-		
+    public static double bisectionSolver(double loan, double rate, int n, double epsilon) {
+    iterationCounter = 0;                
+    double low = 0.0;
+    double high = loan;
+    double mid = (low + high) / 2.0;
 
-		while (highPayment - lowPayment > epsilon) {
-
-			double balance=endBalance(loan,rate, n, midPayment);
-
-		if (balance>0){
-			lowPayment=midPayment;
-		}
-		else {
-			highPayment=midPayment;
-
-		}
-		midPayment= (highPayment+lowPayment)/2;
-
-	}
-		return midPayment;
+    while (high - low > epsilon) {
+        double balance = endBalance(loan, rate, n, mid);
+        if (balance > 0) {
+            low = mid;
+        } else {
+            high = mid;
+        }
+        mid = (low + high) / 2.0;
+        iterationCounter++;              
     }
+    return mid;
+}
+
 }
