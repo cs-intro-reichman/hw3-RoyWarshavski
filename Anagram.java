@@ -83,7 +83,7 @@ public class Anagram {
 	public static String preProcess(String str) {
 		String lowStr = str.toLowerCase();
 		for (int i=0;i<lowStr.length();i++) {
-			if ((lowStr.charAt(i)< 'a' ||lowStr.charAt(i)> 'z'))
+			if (lowStr.charAt(i) != ' ' && (lowStr.charAt(i)< 'a' ||lowStr.charAt(i)> 'z'))
 			{
 				lowStr= lowStr.substring(0,i)+ lowStr.substring(i+1,lowStr.length());
 				i--;
